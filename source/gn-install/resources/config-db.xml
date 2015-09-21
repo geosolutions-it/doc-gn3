@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true"
+  xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="file:///var/lib/tomcat/geonetwork/gn/geonetwork.properties" file-encoding="UTF-8" ignore-unresolvable="true" order="0"/>
+
+   <!-- JDBC datasource -->
+
+    <!-- Enable spatial index on DB -->
+    
+    <bean id="datastoreFactory" class="org.geotools.data.postgis.PostgisNGDataStoreFactory"/>    
+    
+    <bean id="datastore"
+          factory-bean="datastoreFactory"
+          factory-method="createDataStore" >
+        <constructor-arg>
+            <map>
+                <entry key="dbtype" value="postgis"/>
+                
+                <entry key="Loose bbox" value="true"/>
+                <entry key="Estimated extends" value="true"/>
+                <entry key="encode functions" value="true"/>
+                <entry key="Expose primary keys" value="true"/>
+
+                <!-- When using a shared datasource, there are errors in examining the PK
+                     so we'll create a brand new connection definition -
+                -->
+                <!-- <entry key="Data Source" value-ref="jdbcDataSource"/> -->
+
+                <entry key="host" value="${jdbc.host}"/>
+                <entry key="port" value="5432"/>
+                <entry key="database" value="${jdbc.database}"/>
+                <entry key="schema" value="public"/>
+                <entry key="user" value="${jdbc.username}"/>
+                <entry key="passwd" value="${jdbc.password}"/>
+                <entry key="max connections" value="${jdbc.basic.maxActive}"/>
+                <entry key="min connections" value="0"/>
+                <entry key="validate connections" value="true"/>
+                <entry key="fetch size" value="1000"/>
+                <entry key="Connection timeout" value="${jdbc.basic.maxWait}"/>
+                <entry key="Max open prepared statements" value="${jdbc.basic.maxOpenPreparedStatements}"/>
+
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <!-- values to be injected in the default bean jdbcDataSource -->
+    <bean id="jpaVendorAdapterDatabaseParam" class="java.lang.String">
+        <constructor-arg value="POSTGRESQL"/>
+    </bean>
+
+    <bean id="jdbcDriverClassName" class="java.lang.String">
+        <constructor-arg value="org.postgresql.Driver"/>
+    </bean>
+
+    <bean id="jdbcURL" class="java.lang.String">
+        <constructor-arg value="jdbc:postgresql://${jdbc.host}:5432/${jdbc.database}"/>
+    </bean>
+
+
+<!-- Using JNDI, this datasource will be able to handle both GN data and spatial indices -->
+<!--    
+   <bean id="jdbcDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+      <property name="jndiName" value="java:comp/env/jdbc/gndb"/>
+      <property name="cache" value="true"/>
+      <property name="exposeAccessContext" value="false"/>
+   </bean>
+
+    <bean id="datastoreFactory" class="org.geotools.data.postgis.PostgisNGJNDIDataStoreFactory"/>
+
+    <bean id="datastore"
+          factory-bean="datastoreFactory"
+          factory-method="createDataStore" >
+        <constructor-arg>
+            <map>
+                <description>
+                    The datastore factory parameters see Geotools documentation for details.
+
+                    http://docs.geotools.org/latest/userguide/library/data/datastore.html
+                </description>
+                <entry key="dbtype" value="postgis"/>
+                <entry key="jndiReferenceName" value="java:comp/env/jdbc/gndb"/>                                
+                <entry key="Data Source" value-ref="jdbcDataSource"/>                
+            </map>
+        </constructor-arg>
+    </bean>
+-->
+
+</beans>

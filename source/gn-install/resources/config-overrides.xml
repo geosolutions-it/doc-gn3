@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<overrides>
+   <properties>
+   </properties>
+
+   <spring>
+       <import file="/var/lib/tomcat/geonetwork/gn/config-db.xml" />
+       <set bean="jpaVendorAdapter" property="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
+   </spring>
+
+   <!-- TO BE IMPLEMENTED -->  
+   <file name=".*/iso19139/layout/config-editor.xml">
+	<replaceAtt xpath="/editor/views/view[@name='inspire']" attName="disabled" value="false"/>
+   </file>
+  
+   <!-- TO BE CHECKED -->
+   <textFile name="data-db-default.sql">
+      <update linePattern="(INSERT INTO Settings \(name, value, datatype, position, internal\) VALUES \('system/inspire/enable', ').+?('.*)">$1true$2</update>
+      <update linePattern="(INSERT INTO Settings \(name, value, datatype, position, internal\) VALUES \('system/inspire/enableSearchPanel', ').+?('.*)">$1true$2</update>	
+   </textFile>
+   
+</overrides>
