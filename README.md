@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/geosolutions-it/doc-gn3.png?label=ready&title=Ready)](https://waffle.io/geosolutions-it/doc-gn3)
 Documentation for GN3 configuration 
 ===================================
 
