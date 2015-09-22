@@ -1,8 +1,8 @@
 .. doc-bev Documentation master file.
 
-##################################
-Welcome to doc-bev's Documentation
-##################################
+####################################################################
+Welcome to GeoNetwork 3 Documentation from GeoSolutions
+####################################################################
 
 .. toctree::
    :maxdepth: 2
