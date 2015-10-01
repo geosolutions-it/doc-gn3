@@ -58,33 +58,45 @@ By setting the sytem property ``geonetwork.dir`` we'll tell
 GeoNetwork to use such directory to store its data.
 
 
-Setup config file
------------------
+Setup config files
+------------------
 
 Some GeoNetwork internal configuration can be overridden by external definitions.
 
-By setting the sytem property ``geonetwork.jeeves.configuration.overrides.file`` you can define an 
-override file which will replace some default configuration with local ones. 
+By setting the system property ``geonetwork.jeeves.configuration.overrides.file`` you can define an 
+override file which will replace some default configuration with local ones.
+We'll set  this property in the ``setenv.sh`` file (see next subsection).
 
-Create the override file:: 
+In the override file you can:
 
-   vim /var/lib/tomcat/geonetwork/gn/config-overrides.xml
+- set internal properties,
+- import Spring config files into the configuration,
+- replace Spring property values in declared beans,
+- replace pieces of Geonetwork XML configuration files.
 
-and insert :download:`this content <resources/config-overrides.xml>`.
+Replacing and overriding may be quite complex, so here a recap of the configuration `flow`:
 
-This file will also include two other files:
+- In ``setenv.sh``: set the position of the ``config-overrides.xml`` file
 
-- :download:`geonetwork.properties <resources/geonetwork.properties>`
-  A property file for redefining among the other things the DB connection.
-  You will have to customize at least the DB credentials.
-- :download:`config-db.xml <resources/config-db.xml>`
-  A Spring configuration file to redefine the DB connections for both the GeoNetowrk DB and the spatial index.
+  - In ``config-overrides.xml``:
+  
+    - Import the file containing Spring definitions of the database.
+     
+      You'll have to edit it to choose either postgres (``config-db-postgres.xml``) or oracle (``config-db-oracle.xml``).
+      
+      - In file ``config-db-*.xml``:
+            
+        - Load the property file ``geonetwork.properties``, which contains the property definitions used to connect to the DB, used in other internal XML files.
+        - Define 3 Spring beans needed to setup the proper DBMS. 
 
-Copy the linked files into ``/var/lib/tomcat/geonetwork/gn/`` and replace the requested info.
-   
+    - Import the Spring definition of the datastore (``config-datastore.xml``). 
+      If this file is not imported, a shapefile will be created for handling the spatial index.  
+                        
+    - Set the DMBS dialect according to the choosen DB. 
 
-setenv.sh
----------
+
+Config file: ``setenv.sh``
+__________________________
 
 We have to set some system vars used by tomcat, by the JVM, and by the webapp itself.
 
@@ -94,16 +106,69 @@ Create the file ::
 
 and insert :download:`this content <resources/setenv.sh>`.
 
-   
 Then make it executable::
 
    chmod +x /var/lib/tomcat/geonetwork/bin/setenv.sh
 
 
+Config file: ``config-overrides.xml``
+_____________________________________
+
+Create the override file:: 
+
+   vim /var/lib/tomcat/geonetwork/gn/config-overrides.xml
+
+and insert :download:`this content <resources/config-overrides.xml>`.
+
+You may want to **edit** the file and replace the ``import file`` and ``set bean`` elements to 
+point to the Oracle settings.
+
+
+Config file: ``config-db-*.xml``
+________________________________
+
+Either copy the content of 
+
+- :download:`this file <resources/config-db-postgres.xml>` into ``/var/lib/tomcat/geonetwork/gn/config-db-postgres.xml``, or
+- :download:`this file <resources/config-db-oracle.xml>` into ``/var/lib/tomcat/geonetwork/gn/config-db-oracle.xml``.
+
+You may have both file in your directory, since only one will be imported by the ``config-overrides.xml`` file.      
+
+
+Config file: ``geonetwork.properties``
+______________________________________
+
+Copy the content of :download:`this file <resources/geonetwork.properties>`
+into ``/var/lib/tomcat/geonetwork/gn/geonetwork.properties``.
+
+Here you can find the credentials for accessing the main DB, so you will have to 
+**edit** this file to customize at least the DB credentials.
+
+You may also need to change the value for the property ``jdbc.basic.validationQuery`` in case you will be using Oracle.
+
+
+Config file: ``config-datastore.xml``
+_____________________________________
+
+
+Copy the content of :download:`this file <resources/config-datastore.xml>`
+into ``/var/lib/tomcat/geonetwork/gn/config-datastore.xml``.
+
+This file will configure the database for the spatial index.
+By default it will use the same information and credentials used for the default PostgreSQL database, 
+(which means it should be spatially enabled).  
+
+If you need to use another database (maybe on Oracle), you need to **edit** this file.
+
+
 Setup JNDI
 ----------
 
-TODO
+JNDI should allow you to configure the databases at the container level, so that you won't need to
+set any credentials in GeoNetwork configuration files. It should work both for the internal database and the 
+db for the spatial index. 
+
+*(More will be added here once we test the JNDI configuration and prepare the sample files.)*
 
 
 Tomcat dir ownership

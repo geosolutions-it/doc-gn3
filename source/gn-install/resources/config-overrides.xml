@@ -4,8 +4,17 @@
    </properties>
 
    <spring>
-       <import file="/var/lib/tomcat/geonetwork/gn/config-db.xml" />
+       <import file="/var/lib/tomcat/geonetwork/gn/config-db-postgres.xml" />
+       <!--  <import file="/var/lib/tomcat/geonetwork/gn/config-db-oracle.xml" /> -->
+
+       <import file="/var/lib/tomcat/geonetwork/gn/config-datastore.xml" />
+       
+       <!--  Dialect for PostgreSQL -->
        <set bean="jpaVendorAdapter" property="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
+
+       <!--  Dialect for Oracle -->
+       <!-- <set bean="jpaVendorAdapter" property="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/> -->
+       
    </spring>
 
    <!-- TO BE IMPLEMENTED -->  
