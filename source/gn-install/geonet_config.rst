@@ -130,7 +130,7 @@ and removing the ``disabled`` attribute in these lines::
   
 In order to set the INSPIRE view as the default one, 
 
-`Admin console` > `Settings'
+`Admin console` > `Settings`.
 
 Edit the field "Configuration par standard" in the "metadata" section.
 
