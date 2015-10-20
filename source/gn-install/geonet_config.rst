@@ -1,5 +1,5 @@
 ======================
-GeoNetwork final setup
+Final setup
 ======================
 
 Once GeoNetwork is up and running, you have to perform some other steps using the web interface.
