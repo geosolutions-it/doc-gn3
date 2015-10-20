@@ -1,8 +1,8 @@
 .. _geonet_setup_http:
 
-###########
-Setup httpd
-###########
+######################
+Setup Apache HTTPd
+######################
 
 httpd configuration
 ===================
