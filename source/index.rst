@@ -1,8 +1,10 @@
 .. doc-bev Documentation master file.
 
 ####################################################################
-Welcome to GeoNetwork 3 Documentation from GeoSolutions
+Welcome to GeoNetwork 3 Installation Tutorial from GeoSolutions
 ####################################################################
+
+This tutorial has been created by GeoSolutions for helping users with setting up a server that could be used to run GeoNetwork 3 with a proper configuration for complying with INSPIRE rules for CSW.
 
 .. toctree::
    :maxdepth: 2
