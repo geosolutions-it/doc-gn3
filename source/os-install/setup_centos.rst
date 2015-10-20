@@ -4,8 +4,8 @@
 Installing the Operating System
 ###############################
 
-CentOS Setup
-============
+CentOS 7 Setup
+==============
 
 We are re going to install a minimal CentOS 7 distribution. 
 You can get a copy of the .iso the image used for the installation 
