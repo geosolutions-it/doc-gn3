@@ -2,7 +2,7 @@
 Documentation for GeoNetwork 3 installation & set-up
 ======================================================================
 
-Include docs for:
+Including docs for:
 
 - Install CentOS 7 required packages for GN
 - Externalize configuration
