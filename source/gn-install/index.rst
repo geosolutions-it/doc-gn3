@@ -14,3 +14,4 @@ This section will guide the user through the steps necessary to install GeoNetwo
    geonet_startup   
    geonet_httpd
    geonet_config
+   geonet_maintenance

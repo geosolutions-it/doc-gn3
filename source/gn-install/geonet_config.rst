@@ -37,9 +37,7 @@ You then may want to:
 
   * Enable "**INSPIRE**"
   * Enable "**INSPIRE** search panel" **(to be fixed)**
-* Metadata views
-
-  * Enable "**INSPIRE** view" (to be fixed; see :ref:`gn_setup_inspire_view`)
+* Metadata views  
 * Setup the CSW server info
 
 CSW
@@ -109,10 +107,13 @@ Configuration **not** externalizable
 
 .. _gn_setup_inspire_view:
 
-Config INSPIRE view
-___________________
+Enable the INSPIRE view (only needed in GN < 3.2.1)
+___________________________________________________
 
-You can enable the INSPIRE view by editing the file ::
+If you are using a version >= 3.2.1, the INSPIRE view should be automatically enabled when you 
+check the ``INSPIRE`` option in the Settings menu.
+
+For previous versions, you have to enable the INSPIRE view by editing the file ::
 
    gn/data/config/schema_plugins/iso19139/layout/config-editor.xml 
 
@@ -128,6 +129,10 @@ and removing the ``disabled`` attribute in these lines::
      <view name="inspire" upAndDownControlHidden="true" disabled="true">
         <tab id="inspire" default="true" mode="flat">
   
+
+Set INSPIRE as default view
+___________________________
+  
 In order to set the INSPIRE view as the default one, 
 
 `Admin console` > `Settings`.
@@ -142,7 +147,22 @@ should be changed into ::
 
    "iso19139":{"defaultTab":"inspire"
    
-    
+
+.. _gn_setup_inspire_css:
+
+CSS files
+---------
+
+In file ``webapps/geonetwork/catalog/style/gn_search.less`` look for the lines ::
+
+
+   @import (less) "inspire/iti.css";
+   // Import this CSS to have INSPIRE themes translations
+   //@import (less) "inspire/iti-i18n.css";
+
+and remove the comment from the ``import``.
+  
+.. _gn_setup_log_file_location:    
 
 Log file location
 -----------------
@@ -178,31 +198,6 @@ Please note that GeoNetwork loads the log4j configuration file according to the
 setting in `Admin console` > `Settings` > section `Catalog server` > `Log level`.
  
 
-Default language
-----------------
-
-**TODO**
-
-
-=========================
-Installing schema plugins
-=========================
-
-**TODO**
-
-
-============
-Known issues
-============
-
-**TODO**
-
-
-==============
-Other settings
-==============
-
-**TODO**
 
 
 

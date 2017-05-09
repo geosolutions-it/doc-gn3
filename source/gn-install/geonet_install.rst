@@ -1,7 +1,7 @@
 .. _install_gn:
 
 ###########################
-Installing GeoNetwork 3.0.x
+Installing GeoNetwork 3.2.x
 ###########################
 
 ============
@@ -27,15 +27,19 @@ Installing GeoNetwork
 Download packages
 -----------------
 
-Download the ``.war`` files needed for a full GeoNetwork installation::
+Download the ``.war`` files needed for a full GeoNetwork installation, for instance::
 
    cd /root/download
-   wget http://kent.dl.sourceforge.net/project/geonetwork/GeoNetwork_opensource/v3.0.2/geonetwork.war   
+   wget https://kent.dl.sourceforge.net/project/geonetwork/GeoNetwork_opensource/v3.2.1/geonetwork.war
+
+.. hint::
+   You may find other userful custom builds at http://demo.geo-solutions.it/share/geonetwork
+     
 
 Setup tomcat base
 -----------------
 
-Create catalina base directory for MapStore::
+Create catalina base directory for GeoNetwork::
 
    cp -a /var/lib/tomcat/base/       /var/lib/tomcat/geonetwork
    cp /root/download/geonetwork.war  /var/lib/tomcat/geonetwork/webapps/
@@ -74,25 +78,15 @@ In the override file you can:
 - replace Spring property values in declared beans,
 - replace pieces of Geonetwork XML configuration files.
 
-Replacing and overriding may be quite complex, so here a recap of the configuration `flow`:
+Here a recap of the configuration `flow`:
 
 - In ``setenv.sh``: set the position of the ``config-overrides.xml`` file
 
   - In ``config-overrides.xml``:
   
-    - Import the file containing Spring definitions of the database.
-     
-      You'll have to edit it to choose either postgres (``config-db-postgres.xml``) or oracle (``config-db-oracle.xml``).
-      
-      - In file ``config-db-*.xml``:
-            
-        - Load the property file ``geonetwork.properties``, which contains the property definitions used to connect to the DB, used in other internal XML files.
-        - Define 3 Spring beans needed to setup the proper DBMS. 
-
+    - Set the properties related to the DB connection parameters.
     - Import the Spring definition of the datastore (``config-datastore.xml``). 
       If this file is not imported, a shapefile will be created for handling the spatial index.  
-                        
-    - Set the DMBS dialect according to the choosen DB. 
 
 
 Config file: ``setenv.sh``
@@ -118,38 +112,77 @@ Create the override file::
 
    vim /var/lib/tomcat/geonetwork/gn/config-overrides.xml
 
-and insert :download:`this content <resources/config-overrides.xml>`.
+You need different content in the override file for the different DBMS.
 
-You may want to **edit** the file and replace the ``import file`` and ``set bean`` elements to 
-point to the Oracle settings.
+H2
+..
 
+This is the content of the override file to setup the H2 db.
 
-Config file: ``config-db-*.xml``
-________________________________
+Note that using H2 you can configure the path where H2 will store the files containing the DB data.
+By default the DB files will be create in the current directory at the time of the startup of GeoNetwork.
+You can define the path in the JDBC URL.
+ 
+::
 
-Either copy the content of 
+   <overrides>
+      <spring>
+          <set bean="jdbcDataSource" property="Url" value="jdbc:h2:/PATH/TO/THE/DB/FILE"/>
+          <set bean="jdbcDataSource" property="username" value="admin"/>
+          <set bean="jdbcDataSource" property="password" value="gnos"/>
+      </spring>
+   </overrides>
 
-- :download:`this file <resources/config-db-postgres.xml>` into ``/var/lib/tomcat/geonetwork/gn/config-db-postgres.xml``, or
-- :download:`this file <resources/config-db-oracle.xml>` into ``/var/lib/tomcat/geonetwork/gn/config-db-oracle.xml``.
+PostgreSQL
+..........
 
-You may have both file in your directory, since only one will be imported by the ``config-overrides.xml`` file.      
+This is the content of the override file to setup a PG db::
 
+   <overrides>
+      <spring>
+         <set bean="jpaVendorAdapter" property="database" value="POSTGRESQL"/>
+         <set bean="jdbcDataSource" property="driverClassName" value="org.postgresql.Driver"/>
+         <set bean="jdbcDataSource" property="Url" value="jdbc:postgresql://localhost:5432/gn3"/>
+         <set bean="jdbcDataSource" property="username" value="gn3"/>
+         <set bean="jdbcDataSource" property="password" value="gn3"/>
+      </spring>
+   </overrides>
+ 
 
-Config file: ``geonetwork.properties``
-______________________________________
+Oracle
+......
 
-Copy the content of :download:`this file <resources/geonetwork.properties>`
-into ``/var/lib/tomcat/geonetwork/gn/geonetwork.properties``.
+This is the content of the override file to setup an Oracle db.
 
-Here you can find the credentials for accessing the main DB, so you will have to 
-**edit** this file to customize at least the DB credentials.
+Please note that when GeoNetwork is installed the first time, it will insert some initial data in the DB.
+This procedure will use lots of resources, so you'll need to set the properties ``poolPreparedStatements``
+and ``maxOpenPreparedStatements`` as indicated below, or you'll get a "Too many cursor" error. 
+Once the installation has completed, you can safely remove those settings.
 
-You may also need to change the value for the property ``jdbc.basic.validationQuery`` in case you will be using Oracle.
+Also remember to install the Oracle JDBC ``.jar`` file in the tomcat ``lib/`` directory. Since this file is not redistributable
+according to Oracle policies, you'll have to download it on your own, accepting Oracle's license.
+
+::
+
+   <overrides>
+      <spring>
+         <set bean="jpaVendorAdapter" property="database" value="ORACLE"/>
+       
+          <set bean="jdbcDataSource" property="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+          <set bean="jdbcDataSource" property="Url" value="jdbc:oracle:thin:@//10.10.100.77:1521/ORCL"/>
+          <set bean="jdbcDataSource" property="username" value="gnora"/>
+          <set bean="jdbcDataSource" property="password" value="gnora"/>       
+          <set bean="jdbcDataSource" property="validationQuery" value="SELECT 1 FROM DUAL"/>  
+
+          <!-- only when installing the first time -->             
+          <set bean="jdbcDataSource" property="poolPreparedStatements" value="false"/>  
+          <set bean="jdbcDataSource" property="maxOpenPreparedStatements" value="-1"/>  
+      </spring>
+   </overrides>
 
 
 Config file: ``config-datastore.xml``
 _____________________________________
-
 
 Copy the content of :download:`this file <resources/config-datastore.xml>`
 into ``/var/lib/tomcat/geonetwork/gn/config-datastore.xml``.
