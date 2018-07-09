@@ -20,12 +20,13 @@ These are the commands for starting and stopping GeoNetwork:
 Autostart
 =========
 
-The standard way for setting an autostarting service will not work (see https://bugzilla.redhat.com/show_bug.cgi?id=752774),
-so this **will not** work ::
+The standard way for setting an autostarting service is::
 
    systemctl enable tomcat@geonetwork
    
-This commmand seems to do the work::
+
+On some distro it will not work (see https://bugzilla.redhat.com/show_bug.cgi?id=752774), so check if it really did its work.
+If not, this commmand seems to do the work::
 
    ln -s /etc/systemd/system/tomcat\@.service  /lib/systemd/system/multi-user.target.wants/tomcat\@geonetwork.service
 

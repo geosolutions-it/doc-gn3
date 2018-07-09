@@ -18,7 +18,7 @@ And additional modules::
 Firewall configuration
 ----------------------
 
-Allow requests on port 80 through the firewall::
+In case you can't connect to port 80, allow requests on port 80 through the firewall::
 
     firewall-cmd --zone=public --add-port=80/tcp --permanent
     firewall-cmd --zone=public --add-service=http --permanent

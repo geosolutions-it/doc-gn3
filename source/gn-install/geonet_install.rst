@@ -1,7 +1,7 @@
 .. _install_gn:
 
 ###########################
-Installing GeoNetwork 3.2.x
+Installing GeoNetwork 3.4.2
 ###########################
 
 ============
@@ -13,8 +13,11 @@ In this document you'll only find specific information for installing GeoNetwork
 It is expected that the base system has already been properly installed and configured as described in :ref:`centos_setup`.
 
 In such document there are information about how to install some required base components, such as 
-PostgreSQL (:ref:`os_postgres_install`), Apache HTTPD (:ref:`os_httpd_install`), 
-Java (:ref:`os_java_install`), Apache Tomcat (:ref:`os_tomcat_install`).
+
+- PostgreSQL (:ref:`os_postgres_install`), 
+- Apache HTTPD (:ref:`os_httpd_install`), 
+- Java (:ref:`os_java_install`), 
+- Apache Tomcat (:ref:`os_tomcat_install`).
 
 =====================
 Installing GeoNetwork
@@ -30,7 +33,11 @@ Download packages
 Download the ``.war`` files needed for a full GeoNetwork installation, for instance::
 
    cd /root/download
-   wget https://kent.dl.sourceforge.net/project/geonetwork/GeoNetwork_opensource/v3.2.1/geonetwork.war
+   wget https://kent.dl.sourceforge.net/project/geonetwork/GeoNetwork_opensource/v3.4.2/geonetwork.war
+
+.. hint::
+   This is only one of the available mirrors; choose on SourceForge the mirror nearest to you.
+
 
 .. hint::
    You may find other userful custom builds at http://demo.geo-solutions.it/share/geonetwork
@@ -52,11 +59,14 @@ GeoNetwork data dirs can be externalized. This means that GeoNetwork can be inst
 such directories outside the webapp directory, so they will be maintained through the application 
 upgrades.
 
-We'll put the data in ``/var/lib/tomcat/geonetwork/gn/data``.
+We'll put the data in ``/var/lib/tomcat/geonetwork/gn/data`` and the 
+custom configurations in ``/var/lib/tomcat/geonetwork/gn/conf``.
+
 Create the directory hierarchy::
 
    cd /var/lib/tomcat/geonetwork/
    mkdir -p gn/data
+   mkdir -p gn/conf
    
 By setting the sytem property ``geonetwork.dir`` we'll tell 
 GeoNetwork to use such directory to store its data.
@@ -110,7 +120,7 @@ _____________________________________
 
 Create the override file:: 
 
-   vim /var/lib/tomcat/geonetwork/gn/config-overrides.xml
+   vim /var/lib/tomcat/geonetwork/gn/conf/config-overrides.xml
 
 You need different content in the override file for the different DBMS.
 

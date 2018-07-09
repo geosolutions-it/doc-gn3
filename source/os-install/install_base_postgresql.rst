@@ -13,52 +13,49 @@ Update the packages list::
    
 Install the package for configuring the PGDG repository::
 
-   yum install http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+   yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
  
 EPEL repository will provide GDAL packages::
 
-   yum install http://mirror.sfo12.us.leaseweb.net/epel/7/x86_64/e/epel-release-7-5.noarch.rpm 
+   yum install https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
 
 Install PostgreSQL, PostGIS and related libs::
 
-   yum install postgis2_94 postgresql94 postgresql94-server postgresql94-libs postgresql94-contrib postgresql94-devel gdal geos
-   yum install gdal-python python-pip python-imaging  python-virtualenv python-devel gcc-c++ python-psycopg2
-   yum install libxml2 libxml2-devel libxml2-python libxslt libxslt-devel libxslt-python
-
+   yum install postgresql96 postgresql96-server postgis2_96 postgresql96-libs postgresql96-contrib postgresql96-devel gdal geos
 
 Verify::
 
-   rpm -qa | grep postg
-  
-   postgresql94-libs-9.4.4-1PGDG.rhel7.x86_64
-   postgis2_94-2.1.8-1.rhel7.x86_64
-   postgresql94-9.4.4-1PGDG.rhel7.x86_64
-   postgresql94-devel-9.4.4-1PGDG.rhel7.x86_64
-   postgresql94-contrib-9.4.4-1PGDG.rhel7.x86_64
-   postgresql94-server-9.4.4-1PGDG.rhel7.x86_64  
-  
+   rpm -qa | grep postg | sort
+
+   postgis24_96-2.4.4-2.rhel7.x86_64
+   postgresql96-9.6.9-1PGDG.rhel7.x86_64
+   postgresql96-contrib-9.6.9-1PGDG.rhel7.x86_64
+   postgresql96-devel-9.6.9-1PGDG.rhel7.x86_64
+   postgresql96-libs-9.6.9-1PGDG.rhel7.x86_64
+   postgresql96-server-9.6.9-1PGDG.rhel7.x86_64
+
 Init the DB::
 
    /usr/pgsql-9.4/bin/postgresql94-setup initdb
    
 Enable start on boot::
 
-   systemctl enable postgresql-9.4.service
+   systemctl enable postgresql-9.6.service
    
 Start postgres service by hand::
 
-   systemctl start postgresql-9.4.service
+   systemctl start postgresql-9.6.service
       
 To restart or reload the instance, you can use the following commands::
 
-   systemctl restart postgresql-9.4.service
-   systemctl reload postgresql-9.4.service
+   systemctl restart postgresql-9.6.service
+   systemctl reload postgresql-9.6.service
   
 
 Setting PostgreSQL access
 -------------------------
 
-Edit the file ``/var/lib/pgsql/9.4/data/pg_hba.conf`` so that the local connection entries 
+Edit the file ``/var/lib/pgsql/9.6/data/pg_hba.conf`` so that the local connection entries 
 will change to::
 
   # "local" is for Unix domain socket connections only
@@ -78,6 +75,6 @@ will change to::
 
 Once the configuration file has been edited, restart postgres::
 
-   systemctl restart postgresql-9.4.service
+   systemctl restart postgresql-9.6.service
 
    

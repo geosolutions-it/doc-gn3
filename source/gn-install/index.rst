@@ -1,8 +1,8 @@
 .. _geonet_installation_index:
 
-==============================
+================================
 GeoNetwork 3: Installation Guide
-==============================
+================================
 
 This section will guide the user through the steps necessary to install GeoNetwork. 
 

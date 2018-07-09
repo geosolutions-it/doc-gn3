@@ -32,7 +32,6 @@ Usually upgrading to a new minor release is simply a matter of cleaning the Tomc
 
 #. Repeat the changes for non-externalizable files, such as:
 
-   - Enable INSPIRE view ( :ref:`gn_setup_inspire_view`)
    - Enable INSPIRE CSS ( :ref:`gn_setup_inspire_css`)
    - Update log file location ( :ref:`gn_setup_log_file_location`)
 

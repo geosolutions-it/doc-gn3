@@ -15,12 +15,12 @@ You may already have the OpenJDK package (``java-1.7.0-openjdk-devel.x86_64``) i
 Check and see if Java is already installed:: 
 
    # java -version
-   java version "1.7.0_51"
-   OpenJDK Runtime Environment (rhel-2.4.4.1.el6_5-x86_64 u51-b02)
-   OpenJDK 64-Bit Server VM (build 24.45-b08, mixed mode)
+   openjdk version "1.8.0_171"
+   OpenJDK Runtime Environment (build 1.8.0_171-b10)
+   OpenJDK 64-Bit Server VM (build 25.171-b10, mixed mode)
    
    # javac -version
-   javac 1.7.0_51       
+   javac 1.8.0_171
 
 If it is not, check for available versions::
 
@@ -29,16 +29,26 @@ If it is not, check for available versions::
 You'll get a list like this one, probably with versions 1.6.0, 1.7.0, 1.8.0::
    
    [...]
-   java-1.6.0-openjdk.x86_64                                                                                                   1:1.6.0.0-3.1.13.1.el6_5                                                                                           @rhel-x86_64-server-6
-   java-1.6.0-openjdk-devel.x86_64                                                                                             1:1.6.0.0-3.1.13.1.el6_5                                                                                           @rhel-x86_64-server-6
-   java-1.6.0-openjdk-javadoc.x86_64                                                                                           1:1.6.0.0-3.1.13.1.el6_5                                                                                           @rhel-x86_64-server-6
-   java-1.7.0-openjdk.x86_64                                                                                                   1:1.7.0.51-2.4.4.1.el6_5                                                                                           @rhel-x86_64-server-6
-   java-1.7.0-openjdk-devel.x86_64                                                                                             1:1.7.0.51-2.4.4.1.el6_5                                                                                           @rhel-x86_64-server-6
+   java-1.6.0-openjdk.x86_64                                                                1:1.6.0.41-1.13.13.1.el7_3                                             base    
+   java-1.6.0-openjdk-demo.x86_64                                                           1:1.6.0.41-1.13.13.1.el7_3                                             base    
+   java-1.6.0-openjdk-devel.x86_64                                                          1:1.6.0.41-1.13.13.1.el7_3                                             base    
+   java-1.6.0-openjdk-javadoc.x86_64                                                        1:1.6.0.41-1.13.13.1.el7_3                                             base    
+   java-1.6.0-openjdk-src.x86_64                                                            1:1.6.0.41-1.13.13.1.el7_3                                             base    
+   java-1.7.0-openjdk.x86_64                                                                1:1.7.0.181-2.6.14.8.el7_5                                             updates 
+   java-1.7.0-openjdk-accessibility.x86_64                                                  1:1.7.0.181-2.6.14.8.el7_5                                             updates 
+   java-1.7.0-openjdk-demo.x86_64                                                           1:1.7.0.181-2.6.14.8.el7_5                                             updates 
+   java-1.7.0-openjdk-devel.x86_64                                                          1:1.7.0.181-2.6.14.8.el7_5                                             updates 
+   java-1.7.0-openjdk-headless.x86_64                                                       1:1.7.0.181-2.6.14.8.el7_5                                             updates 
+   java-1.7.0-openjdk-javadoc.noarch                                                        1:1.7.0.181-2.6.14.8.el7_5                                             updates 
+   java-1.7.0-openjdk-src.x86_64                                                            1:1.7.0.181-2.6.14.8.el7_5                                             updates 
+   java-1.8.0-openjdk.x86_64                                                                1:1.8.0.171-8.b10.el7_5                                                @updates
+   java-1.8.0-openjdk-devel.x86_64                                                          1:1.8.0.171-8.b10.el7_5                                                @updates
+   java-1.8.0-openjdk-headless.x86_64                                                       1:1.8.0.171-8.b10.el7_5                                                @updates
    [...]
    
-Go for the version 1.7.0::
+Go for the version 1.8.0::
 
-   yum install java-1.7.0-openjdk-devel
+   yum install java-1.8.0-openjdk-devel
    
 Once done, the command ``java -version`` should return info about the installed version. 
 
@@ -128,10 +138,10 @@ Tomcat
 
 Let's download and install `Tomcat` first::
 
-    wget http://it.apache.contactlab.it/tomcat/tomcat-7/v7.0.64/bin/apache-tomcat-7.0.64.tar.gz
-    tar xzvf apache-tomcat-7.0.64.tar.gz
-    mv apache-tomcat-7.0.64 /opt
-    ln -s /opt/apache-tomcat-7.0.64 /opt/tomcat
+    wget http://it.apache.contactlab.it/tomcat/tomcat-8/v8.5.32/bin/apache-tomcat-8.5.32.tar.gz
+    tar xzvf apache-tomcat-8.5.32.tar.gz
+    mv apache-tomcat-8.5.32 /opt
+    ln -s /opt/apache-tomcat-8.5.32 /opt/tomcat
 
 Then prepare a clean instance called ``base`` to be used as a template 
 for all tomcat instances::

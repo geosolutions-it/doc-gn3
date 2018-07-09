@@ -30,7 +30,6 @@ Check if the right values are set in these fields:
 
 You then may want to:
 
-* Disable Z39.50 server
 * Change the folder of the removed metadata
 * Enable search statistics
 * INSPIRE Directive configuration
@@ -104,30 +103,6 @@ Once uploaded, you should have the new entry "GEMET - INSPIRE themes, version 1.
 
 Configuration **not** externalizable
 ------------------------------------
-
-.. _gn_setup_inspire_view:
-
-Enable the INSPIRE view (only needed in GN < 3.2.1)
-___________________________________________________
-
-If you are using a version >= 3.2.1, the INSPIRE view should be automatically enabled when you 
-check the ``INSPIRE`` option in the Settings menu.
-
-For previous versions, you have to enable the INSPIRE view by editing the file ::
-
-   gn/data/config/schema_plugins/iso19139/layout/config-editor.xml 
-
-.. hint:: If you did not externalize your data directory, you have to edit the file at
-
-          ``webapps/geonetwork/WEB-INF/data/config/schema_plugins/iso19139/layout/config-editor.xml``
-
-and removing the ``disabled`` attribute in these lines::
-   
-  <!-- View configuration -->
-  <views>
-     <!--Turn off INSPIRE view by default -->
-     <view name="inspire" upAndDownControlHidden="true" disabled="true">
-        <tab id="inspire" default="true" mode="flat">
   
 
 Set INSPIRE as default view
@@ -193,11 +168,12 @@ replacing the line ::
 with ::
 
     <param name="File" value="/var/lib/tomcat/geonetwork/logs/geonetwork.log" />
+
+You may want to modify the files with this line::
+
+    for file in  /var/lib/tomcat/geonetwork/webapps/geonetwork/WEB-INF/classes/log4j*xml ; do sed -i -e s_logs/geonetwork.log_/var/lib/tomcat/geonetwork/logs/geonetwork.log_g $file ; done
+
  
 Please note that GeoNetwork loads the log4j configuration file according to the 
 setting in `Admin console` > `Settings` > section `Catalog server` > `Log level`.
  
-
-
-
-

@@ -4,10 +4,10 @@
    </properties>
 
    <spring>
-       <import file="/var/lib/tomcat/geonetwork/gn/config-db-postgres.xml" />
+       <import file="/var/lib/tomcat/geonetwork/gn/conf/config-db-postgres.xml" />
        <!--  <import file="/var/lib/tomcat/geonetwork/gn/config-db-oracle.xml" /> -->
 
-       <import file="/var/lib/tomcat/geonetwork/gn/config-datastore.xml" />
+       <import file="/var/lib/tomcat/geonetwork/gn/conf/config-datastore.xml" />
        
        <!--  Dialect for PostgreSQL -->
        <set bean="jpaVendorAdapter" property="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect"/>
