@@ -36,7 +36,7 @@ Verify::
 
 Init the DB::
 
-   /usr/pgsql-9.4/bin/postgresql94-setup initdb
+   /usr/pgsql-9.6/bin/postgresql96-setup initdb
    
 Enable start on boot::
 
