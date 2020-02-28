@@ -35,7 +35,6 @@ You then may want to:
 * INSPIRE Directive configuration
 
   * Enable "**INSPIRE**"
-  * Enable "**INSPIRE** search panel" **(to be fixed)**
 * Metadata views  
 * Setup the CSW server info
 
@@ -47,7 +46,7 @@ This can be done creating a new user:
 `Admin console` >  `Users and Groups` > `Manage users` > `New User`
 
 Then you have to select such user as the contact for CSW: 
-`Admin console` > `Settings` > Tab `CSW` > `Contact`.
+`Admin console` > `Settings` > `CSW` > `Contact`.
 Select the user you just created as CSW PoC.
 
 Site logo
@@ -90,54 +89,17 @@ Load INSPIRE thesauri
 
 `Admin console` > `Classification systems` > `Add thesaurus`
 
-Select the "From URL" entry from the choice.
+Select the "From Registry" entry from the choice.
 
-Set this address in the URL field::
+- In the ``Registry URL`` field press the "Use INSPIRE registry button", which will pre-set the URL of the INSPIRE registry
+- Choose the languages for the labels that will be imported
+- Choose the registri item class
+- In case, choose the registry collection
 
-   https://raw.githubusercontent.com/geonetwork/util-gemet/master/thesauri/inspire-theme.rdf
+When everything has been set, press the "upload" button. It will "download" the thesaurus from the INPIRE site to the GeoNetwork site,
+and will then "upload" the data into GeoNetwork.
 
-And select "Theme" in the dropdown menu.
-
-Once uploaded, you should have the new entry "GEMET - INSPIRE themes, version 1.0 (theme)".
-
-
-Configuration **not** externalizable
-------------------------------------
-  
-
-Set INSPIRE as default view
-___________________________
-  
-In order to set the INSPIRE view as the default one, 
-
-`Admin console` > `Settings`.
-
-Edit the field "Configuration par standard" in the "metadata" section.
-
-The string :: 
-
-   "iso19139":{"defaultTab":"default"
-   
-should be changed into ::
-
-   "iso19139":{"defaultTab":"inspire"
-   
-
-.. _gn_setup_inspire_css:
-
-CSS files
----------
-
-In file ``webapps/geonetwork/catalog/style/gn_search.less`` look for the lines ::
-
-
-   @import (less) "inspire/iti.css";
-   // Import this CSS to have INSPIRE themes translations
-   //@import (less) "inspire/iti-i18n.css";
-
-and remove the comment from the ``import``.
-  
-.. _gn_setup_log_file_location:    
+.. _gn_setup_log_file_location:
 
 Log file location
 -----------------
@@ -145,31 +107,22 @@ Log file location
 GeoNetwork is configured to output the logs both on console and on file.
 
 You'll find the console output redirected into the file ``logs/catalina.out``.
+
 The configured output log file, which contains some different information, is set to
-``logs/geonetwork.logs``. The base dir is set wherever the starting process place it, but starting 
-tomcat with systemd will probably set a read-only location.      
-This means that you may need to set manually the location of the log file.
+``logs/geonetwork.logs``.
 
-You have to enter the directory ::
+The base dir where the ``logs`` dir should be is set wherever the starting process place it,
+and it's set in the systemd unit file in the line::
 
-   cd /var/lib/tomcat/geonetwork/webapps/geonetwork/WEB-INF/classes/
+    WorkingDirectory=/var/lib/tomcat/%i
 
-and edit the files:
+The default log configuration will log errors level messages only.
+I case you need to log warn level messages, this command line will replace the ERROR level with the WARN level::
 
-* ``log4j-dev.xml``
-* ``log4j-index.xml``
-* ``log4j-search.xml``
-* ``log4j.xml``
+   sed -i "s/ERROR/WARN/g"  /var/lib/tomcat/geonetwork/webapps/geonetwork/WEB-INF/classes/log4j.xml
 
-replacing the line ::
-
-    <param name="File" value="logs/geonetwork.log" />
-
-with ::
-
-    <param name="File" value="/var/lib/tomcat/geonetwork/logs/geonetwork.log" />
-
-You may want to modify the files with this line::
+If you want to modify the output directory of GeoNetwork logs, you can use next line, editing the
+part ``/var/lib/tomcat/geonetwork/logs/geonetwork.log``, which is the destination path of the logs::
 
     for file in  /var/lib/tomcat/geonetwork/webapps/geonetwork/WEB-INF/classes/log4j*xml ; do sed -i -e s_logs/geonetwork.log_/var/lib/tomcat/geonetwork/logs/geonetwork.log_g $file ; done
 

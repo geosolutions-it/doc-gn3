@@ -32,7 +32,6 @@ Usually upgrading to a new minor release is simply a matter of cleaning the Tomc
 
 #. Repeat the changes for non-externalizable files, such as:
 
-   - Enable INSPIRE CSS ( :ref:`gn_setup_inspire_css`)
    - Update log file location ( :ref:`gn_setup_log_file_location`)
 
 #. For non-externalized data dir, restore the data directory (``webapps/geonetwork/WEB-INF/data/``) 

@@ -239,8 +239,6 @@ div.social-container{
 #social li{ list-style:none; display:inline !important;margin-left:5px;}
 /*#twitter, #gplus*/
 #social a { width:inherit; height:35px; display:inline-block; line-height:100px; overflow:hidden; float:right;}
-#twitter { background:url(img/sprite.png) -228px -10px; width:115px !important; float:right;		-moz-transition: all 0.5s ease-in-out;	-webkit-transition: all 0.5s ease-in-out;	transition: all 0.5s ease-in-out; }
-#gplus { background:url(img/sprite.png) -150px -5px; width:25px !important; float:right;   		-moz-transition: all 0.5s ease-in-out;	-webkit-transition: all 0.5s ease-in-out;	transition: all 0.5s ease-in-out;}
+#twitter { background:url(img/sprite.png) -228px -10px; width:115px !important; float:right;	-moz-transition: all 0.5s ease-in-out;	-webkit-transition: all 0.5s ease-in-out;	transition: all 0.5s ease-in-out; }
 #twitter:hover { background:url(img/sprite.png) -228px -60px;		  }
-#gplus:hover { background:url(img/sprite.png) -150px -55px;  }
 
