@@ -1,7 +1,7 @@
 .. _install_gn:
 
 ###########################
-Installing GeoNetwork 3.4.2
+Installing GeoNetwork 3.8.3
 ###########################
 
 ============
@@ -33,15 +33,11 @@ Download packages
 Download the ``.war`` files needed for a full GeoNetwork installation, for instance::
 
    cd /root/download
-   wget https://kent.dl.sourceforge.net/project/geonetwork/GeoNetwork_opensource/v3.4.2/geonetwork.war
+   wget https://liquidtelecom.dl.sourceforge.net/project/geonetwork/GeoNetwork_opensource/v3.8.3/geonetwork.war
 
 .. hint::
-   This is only one of the available mirrors; choose on SourceForge the mirror nearest to you.
+   This is only one of the many available mirrors; choose on SourceForge the mirror nearest to you.
 
-
-.. hint::
-   You may find other userful custom builds at http://demo.geo-solutions.it/share/geonetwork
-     
 
 Setup tomcat base
 -----------------
@@ -51,6 +47,15 @@ Create catalina base directory for GeoNetwork::
    cp -a /var/lib/tomcat/base/       /var/lib/tomcat/geonetwork
    cp /root/download/geonetwork.war  /var/lib/tomcat/geonetwork/webapps/
 
+Edit the file ``/var/lib/tomcat/geonetwork/conf/server.xml`` and
+ - uncomment the AJP Connector,
+ - add the ``secretRequired`` attribute::
+
+    <Connector protocol="AJP/1.3"
+               address="::1"
+               port="8009"
+               redirectPort="8443"
+               secretRequired="false"/>
 
 Data dir
 --------
@@ -152,9 +157,9 @@ This is the content of the override file to setup a PG db::
       <spring>
          <set bean="jpaVendorAdapter" property="database" value="POSTGRESQL"/>
          <set bean="jdbcDataSource" property="driverClassName" value="org.postgresql.Driver"/>
-         <set bean="jdbcDataSource" property="Url" value="jdbc:postgresql://localhost:5432/gn3"/>
-         <set bean="jdbcDataSource" property="username" value="gn3"/>
-         <set bean="jdbcDataSource" property="password" value="gn3"/>
+         <set bean="jdbcDataSource" property="Url" value="jdbc:postgresql://localhost:5432/geonetwork"/>
+         <set bean="jdbcDataSource" property="username" value="geonetwork"/>
+         <set bean="jdbcDataSource" property="password" value="YOUR_PASSWORD"/>
       </spring>
    </overrides>
  

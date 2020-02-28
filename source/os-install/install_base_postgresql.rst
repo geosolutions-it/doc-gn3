@@ -9,53 +9,59 @@ Install PostgreSQL
 
 Update the packages list::
 
-   yum check-update
+   dnf check-update
    
 Install the package for configuring the PGDG repository::
 
-   yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+   dnf install https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
  
 EPEL repository will provide GDAL packages::
 
-   yum install https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+   dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+
+Force the system to use the postgresql repo for PG:
+
+   dnf config-manager --set-enabled PowerTools
+   dnf module disable postgresql
 
 Install PostgreSQL, PostGIS and related libs::
 
-   yum install postgresql96 postgresql96-server postgis2_96 postgresql96-libs postgresql96-contrib postgresql96-devel gdal geos
+   dnf install postgresql11-server postgresql11-devel postgresql11-contrib  postgis25_11
 
 Verify::
 
    rpm -qa | grep postg | sort
 
-   postgis24_96-2.4.4-2.rhel7.x86_64
-   postgresql96-9.6.9-1PGDG.rhel7.x86_64
-   postgresql96-contrib-9.6.9-1PGDG.rhel7.x86_64
-   postgresql96-devel-9.6.9-1PGDG.rhel7.x86_64
-   postgresql96-libs-9.6.9-1PGDG.rhel7.x86_64
-   postgresql96-server-9.6.9-1PGDG.rhel7.x86_64
+   postgis25_11-2.5.3-8.rhel8.x86_64
+   postgresql11-11.7-1PGDG.rhel8.x86_64
+   postgresql11-contrib-11.7-1PGDG.rhel8.x86_64
+   postgresql11-devel-11.7-1PGDG.rhel8.x86_64
+   postgresql11-libs-11.7-1PGDG.rhel8.x86_64
+   postgresql11-server-11.7-1PGDG.rhel8.x86_64
 
 Init the DB::
 
-   /usr/pgsql-9.6/bin/postgresql96-setup initdb
+   /usr/pgsql-11/bin/postgresql-11-setup initdb
    
 Enable start on boot::
 
-   systemctl enable postgresql-9.6.service
+   systemctl enable postgresql-11
    
 Start postgres service by hand::
 
-   systemctl start postgresql-9.6.service
+   systemctl start postgresql-11
       
 To restart or reload the instance, you can use the following commands::
 
-   systemctl restart postgresql-9.6.service
-   systemctl reload postgresql-9.6.service
+   systemctl restart postgresql-11
+   systemctl reload postgresql-11
   
 
 Setting PostgreSQL access
 -------------------------
 
-Edit the file ``/var/lib/pgsql/9.6/data/pg_hba.conf`` so that the local connection entries 
+Edit the file ``/var/lib/pgsql/11/data/pg_hba.conf`` so that the local connection entries
 will change to::
 
   # "local" is for Unix domain socket connections only
@@ -75,6 +81,6 @@ will change to::
 
 Once the configuration file has been edited, restart postgres::
 
-   systemctl restart postgresql-9.6.service
+   systemctl restart postgresql-11
 
    

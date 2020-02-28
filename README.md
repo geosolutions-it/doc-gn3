@@ -1,11 +1,11 @@
 [![Stories in Ready](https://badge.waffle.io/geosolutions-it/doc-gn3.png?label=ready&title=Ready)](https://waffle.io/geosolutions-it/doc-gn3)
 
-GeoNetwork 3: installation & set-up documentation
+GeoNetwork 3.8: installation & set-up documentation
 ======================================================================
 
 Including docs for:
 
-- Install CentOS 7 required packages for GN
+- Install CentOS 8 packages required for GN
 - Externalize configuration
 - Enable INSPIRE capabilites
 

@@ -7,12 +7,12 @@ Apache HTTP Server Installation
 
 Install Apache::
 
-    yum install httpd
+    dnf install httpd
 
 And additional modules::
 
-    yum install httpd mod_ssl mod_proxy_html 
-    yum install mod_wsgi
+    dnf install httpd mod_ssl mod_proxy_html
+    dnf install mod_wsgi
 
 
 Firewall configuration

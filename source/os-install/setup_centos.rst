@@ -9,9 +9,9 @@ CentOS 7 Setup
 
 We are re going to install a minimal CentOS 7 distribution. 
 You can get a copy of the .iso the image used for the installation 
-`here <http://mi.mirror.garr.it/mirrors/CentOS/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso>`_.
+`here <http://centos.mirror.garr.it/centos/8.1.1911/isos/x86_64/CentOS-8.1.1911-x86_64-dvd1.iso>`_.
 
-Boot up the installation DVD and start the `CentOS 7` Installation wizard.
+Boot up the installation DVD and start the `CentOS 8` Installation wizard.
 
     - Under `Keyboard` and choose the keyboard layout
     - Under `Networking` configure your network interface according to your infrastructure
@@ -36,7 +36,7 @@ Boot up the installation DVD and start the `CentOS 7` Installation wizard.
       +-----------------+----------------+-----------+-------------+
     - Click on `Begin Installation`
     - Now set the password for the ``root`` user. Also click on `User Creation` to
-      create the ``toor`` user (an unprivileged user).
+      create the ``user`` user (an unprivileged user).
     -  Wait for the installation process to finish, then reboot your machine
 
 
@@ -74,29 +74,19 @@ Note that after configuring the network, you may continue installing the system 
 User access configuration
 =========================
 
-Login as ``root`` user and give the ``toor`` user administrative privileges
+Login as ``root`` user and give the ``user`` user administrative privileges
 by adding him to the ``wheel`` group: ::
 
-   usermod -aG wheel toor
+   usermod -aG wheel user
 
 SSH access
 ----------
-
-Allow SSH connections through the firewall
-''''''''''''''''''''''''''''''''''''''''''
-
-On CentOS 7 the firewall is enabled by default. To allow SSH clients to connect
-to the machine allow incoming connections on port 22::
-
-    firewall-cmd --zone=public --add-port=22/tcp --permanent
-    firewall-cmd --zone=public --add-service=ssh --permanent
-    firewall-cmd --reload
 
 Disable SSH login for the `root` user
 '''''''''''''''''''''''''''''''''''''
 .. warning::
     Before you disable root login make sure you are able to login via SSH with
-    ``toor`` user account and you have the privileges to run ``sudo su`` to
+    ``user`` user account and you have the privileges to run ``sudo su`` to
     switch to the ``root`` user account.
 
 Edit file ``/etc/ssh/sshd_config`` to disable ``root`` login via SSH::
@@ -117,20 +107,20 @@ First generate a public/private key pair using `ssh-keygen`::
 
 Follow the procedure, you will end up with your newly generated key under ``~/.ssh``
 Now copy your **public** (by default it is called id_rsa.pub) key over the CentOS
-machine in ``/home/toor/.ssh/authorized_keys``. There are several ways to do
+machine in ``/home/user/.ssh/authorized_keys``. There are several ways to do
 it, we are going to use the `ssh-copy-id` tool::
 
-        ssh-copy-id -i ~/.ssh/id_rsa.pub toor@<server-ip-address>
+        ssh-copy-id -i ~/.ssh/id_rsa.pub user@<server-ip-address>
 
-You should now be able to login via SSH as ``toor`` without been asked for
+You should now be able to login via SSH as ``user`` without been asked for
 the password::
 
-    ssh toor@<server-ip-address>
+    ssh user@<server-ip-address>
 
 You can now disable password based login over SSH
 
 .. warning::
-    Before disabling password authentication make sure you' ve installed your
+    Before disabling password authentication make sure you have installed your
     public key on the server and you are able to login without password
 
 Edit ``/etc/ssh/sshd_config`` as follows::
@@ -151,35 +141,35 @@ Installing ntp
 
 Install the program for ntp server synchronization::
 
-   yum install ntp
+   dnf install chrony
 
-Optionally, edit ``/etc/ntp.conf`` and add your own ntp servers before the first ``server`` directive.
+Optionally, edit ``/etc/chrony.conf`` and add your own ntp servers before the first ``pool`` directive.
 For instance, in Italy you may want to use the institutional time server::
 
-   server tempo.ien.it     # Galileo Ferraris
+   pool tempo.ien.it     # Galileo Ferraris
 
 Replace ``tempo.ien.it`` with your nearest ntp server.
 
 Sync with the server by issuing::
 
-   systemctl start ntpd 
+   systemctl start chronyd
  
 Set the time synchronization as an autostarting daemon::
- 
-   systemctl enable ntpd
+
+   systemctl enable chronyd
 
 Installing base packages
 ========================
 
 Install::
 
-  yum install man
-  yum install vim
-  yum install openssh-clients    # also needed for incoming scp connections
-  yum install mc                 # mc (along with zip) can be used to navigate inside .war files
-  yum install zip unzip
-  yum install wget curl
-  yum install git
+  dnf install man
+  dnf install vim
+  dnf install openssh-clients    # also needed for incoming scp connections
+  dnf install mc                 # mc (along with zip) can be used to navigate inside .war files
+  dnf install zip unzip
+  dnf install wget curl
+  dnf install git
   
   
   

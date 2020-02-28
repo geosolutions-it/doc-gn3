@@ -30,11 +30,6 @@ Create the DB::
    
    createdb -O geonetwork geonetwork -E utf-8
 
-Add the spatial extension to the ``geonetwork`` DB::
-
-   psql geonetwork
-   
-
 
 .. _geonetwork_spatial_index_db:    
 
@@ -97,6 +92,12 @@ Then add the ``postgis`` extensions ::
    CREATE EXTENSION "postgis_topology";  
    GRANT ALL PRIVILEGES ON DATABASE geonetwork TO geonetwork;
    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO geonetwork;
+
+
+You may add the spatial extension from the command line, avoiding entering the interactive psql shell::
+
+   psql -c "CREATE EXTENSION postgis;" geonetwork
+   psql -c "CREATE EXTENSION postgis_topology;" geonetwork
 
 
 In a later section we'll tell GeoNetwork how to use these DBs.
