@@ -100,8 +100,15 @@ Here a recap of the configuration `flow`:
   - In ``config-overrides.xml``:
   
     - Set the properties related to the DB connection parameters.
-    - Import the Spring definition of the datastore (``config-datastore.xml``). 
-      If this file is not imported, a shapefile will be created for handling the spatial index.  
+    - Import the Spring definition of the datastore (``config-datastore.xml``).
+      If this file is not imported, a shapefile will be created for handling the spatial index.
+      Us the import line in the override file like this::
+
+         <spring>
+            ...
+            <import file="/var/lib/tomcat/geonetwork/gn/conf/config-datastore.xml" />
+            ...
+
 
 
 Config file: ``setenv.sh``
